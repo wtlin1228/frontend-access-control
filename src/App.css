@@ -57,3 +57,13 @@ ul {
 .page {
   min-height: 800px;
 }
+
+.report-section {
+  width: 500px;
+  height: 300px;
+  border: 1px solid white;
+  margin: 20px auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
