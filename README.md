@@ -1,3 +1,7 @@
+# Design Overview
+
+![fe-access-control](fe-access-control.png)
+
 # User Stories
 
 - [menu level] A user without core module enabled shouldn't see the product / tag / printer entry.
@@ -103,3 +107,11 @@ We can use `AccessController` as a HOC that can handle both access control valid
 ```
 
 I recommend only using `AccessController` inside your page when the route level's access control has more than one rule.
+
+# Try Yourself
+
+1. clone this repo
+2. `npm install`
+3. `npm run dev`
+
+![demo](demo.png)
