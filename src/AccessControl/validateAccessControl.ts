@@ -1,10 +1,32 @@
-import { AccessControl, ModuleName } from "./type";
+import { AccessControl, ModuleName, Rule } from "./type";
 
-export default function validateAccessControl(
-  userModules: ModuleName[],
-  accessControl: AccessControl
+export function validateAccessControlWithUserModules(
+  accessControl: AccessControl,
+  userModules: ModuleName[]
 ): boolean {
   return accessControl.some((rule) => {
-    return !rule.find((moduleName) => !userModules.includes(moduleName));
+    const isRuleCoveredByUserModules = !rule.some(
+      (moduleName) => !userModules.includes(moduleName)
+    );
+    return isRuleCoveredByUserModules;
   });
+}
+
+export function validateRuleWithAccessControl(
+  accessControl: AccessControl,
+  requiredModules: Rule
+): boolean {
+  return accessControl.some((rule) => {
+    const isRequiredModulesCoveredByRule = !requiredModules.some(
+      (moduleName) => !rule.includes(moduleName)
+    );
+    return isRequiredModulesCoveredByRule;
+  });
+}
+
+export function validateRuleWithUserModules(
+  rule: Rule,
+  userModules: ModuleName[]
+): boolean {
+  return !rule.some((module) => !userModules.includes(module));
 }

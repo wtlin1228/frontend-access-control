@@ -1,8 +1,10 @@
 import { createContext, useContext } from "react";
-// import { AccessControl } from "./type";
+import { Rule } from "./type";
 
 interface IAccessControlContext {
   accessControl: string;
+  validateRuleWithLayoutAccessControl: (rule: Rule) => boolean;
+  validateRuleWithUserModules: (rule: Rule) => boolean;
 }
 
 export const AccessControlContext = createContext<null | IAccessControlContext>(

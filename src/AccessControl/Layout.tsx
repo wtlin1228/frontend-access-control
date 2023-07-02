@@ -1,8 +1,12 @@
 import { useMemo } from "react";
-import type { AccessControl, ModuleName } from "./type";
+import type { AccessControl, ModuleName, Rule } from "./type";
 import useModuleQuery from "./useModuleQuery";
 import { AccessControlContext } from "./context";
-import validateAccessControl from "./validateAccessControl";
+import {
+  validateAccessControlWithUserModules,
+  validateRuleWithAccessControl,
+  validateRuleWithUserModules,
+} from "./validateAccessControl";
 
 export const makeAccessControlLayout = (accessControl: AccessControl) => {
   const AccessControlLayout: React.FC<React.PropsWithChildren> = ({
@@ -15,8 +19,14 @@ export const makeAccessControlLayout = (accessControl: AccessControl) => {
         accessControl: accessControl
           .map((x) => `[${x.join(" and ")}]`)
           .join(" or "),
+
+        validateRuleWithLayoutAccessControl: (rule: Rule) =>
+          validateRuleWithAccessControl(accessControl, rule),
+
+        validateRuleWithUserModules: (rule: Rule) =>
+          validateRuleWithUserModules(rule, data as ModuleName[]),
       }),
-      []
+      [data]
     );
 
     if (loading) {
@@ -27,7 +37,9 @@ export const makeAccessControlLayout = (accessControl: AccessControl) => {
       );
     }
 
-    if (!validateAccessControl(data as ModuleName[], accessControl)) {
+    if (
+      !validateAccessControlWithUserModules(accessControl, data as ModuleName[])
+    ) {
       return (
         <div className="page">
           <h1>You can't access this page</h1>
