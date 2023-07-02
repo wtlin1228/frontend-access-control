@@ -1,7 +1,7 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { makeAccessControlLayout } from "./AccessControl/Layout";
 import "./App.css";
-import Menu from "./layouts/menu";
+import Menu from "./layouts/Menu";
 import Report from "./pages/Report";
 import Product from "./pages/Product";
 import Home from "./pages/Home";
@@ -11,17 +11,30 @@ import Member from "./pages/Member";
 import BranchPurchase from "./pages/BranchPurchase";
 import Combo from "./pages/Combo";
 
-const RequireCoreMemberModulesLayout = makeAccessControlLayout([
-  ["core"],
-  ["member"],
-]);
-const RequireCoreModuleLayout = makeAccessControlLayout([["core"]]);
-const RequireMemberModuleLayout = makeAccessControlLayout([["member"]]);
-const RequireBpModuleLayout = makeAccessControlLayout([["bp"]]);
-const CobmoAccessControlLayout = makeAccessControlLayout([
-  ["core", "member"],
-  ["core", "bp"],
-]);
+const RequireCoreMemberModulesLayout = makeAccessControlLayout({
+  accessControl: [["core"], ["member"]],
+});
+const RequireCoreModuleLayout = makeAccessControlLayout({
+  accessControl: [["core"]],
+});
+const RequireMemberModuleLayout = makeAccessControlLayout({
+  accessControl: [["member"]],
+  // redirectToWhenValidateFail: "/",
+  screenForValidateFail: (
+    <div className="page">
+      <h1>Sorry, please upgrade your plan</h1>
+    </div>
+  ),
+});
+const RequireBpModuleLayout = makeAccessControlLayout({
+  accessControl: [["bp"]],
+});
+const ComboAccessControlLayout = makeAccessControlLayout({
+  accessControl: [
+    ["core", "member"],
+    ["core", "bp"],
+  ],
+});
 
 const router = createBrowserRouter([
   {
@@ -80,9 +93,9 @@ const router = createBrowserRouter([
       {
         path: "/combo",
         element: (
-          <CobmoAccessControlLayout>
+          <ComboAccessControlLayout>
             <Combo />
-          </CobmoAccessControlLayout>
+          </ComboAccessControlLayout>
         ),
       },
     ],
