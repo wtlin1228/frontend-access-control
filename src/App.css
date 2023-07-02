@@ -58,7 +58,8 @@ ul {
   min-height: 800px;
 }
 
-.report-section {
+.report-section,
+.combo-section {
   width: 500px;
   height: 300px;
   border: 1px solid white;
